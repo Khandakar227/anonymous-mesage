@@ -1,3 +1,4 @@
+//@ts-check
 import express from 'express';
 import handler from "../handlers/messageHandler.js";
 import rootHandler from "../handlers/rootHandler.js"

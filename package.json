@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run watch:css | nodemon .",
-    "build": "tailwindcss -i views/index.css -o views/output.css"
+    "watch:css": "tailwindcss -i views/input.css -o views/output.css --watch",
+    "build": "tailwindcss -i views/input.css -o views/output.css"
   },
   "dependencies": {
     "axios": "^0.25.0",

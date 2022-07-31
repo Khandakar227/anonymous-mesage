@@ -8,6 +8,7 @@ const port = process.env.PORT || 8080;
 config();
 
 const app = express();
+app.use(express.static('views'));
 
 app.use(cors());
 app.use(express.json());

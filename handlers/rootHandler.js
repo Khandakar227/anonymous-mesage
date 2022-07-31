@@ -1,4 +1,5 @@
-import { join } from "path";
+//@ts-check
+
 /**
  * @param {import("express").Request} req
  * @param {import("express").Response} res
@@ -6,10 +7,10 @@ import { join } from "path";
  */
 export default function handler(req, res, next) {
   try {
-    const root = join(__dirname, "views/index.html");
-    res.sendFile(root);
-  }
-  catch(error) {
-    res.status(500).send("Error occured on the server. status: 500")
+    
+    res.sendFile("index.html");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error occured on the server. status: 500");
   }
 }

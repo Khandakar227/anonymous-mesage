@@ -1,30 +1,98 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="title" content="Send anonymous message">
-    <meta name="description" content="Send me an anonymous message">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Send anonymous message">
-    <meta property="og:description" content="Send me an anonymous message">
-    <meta property="og:image" content="">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="language" content="English">
-    <link href="/output.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="h-full-screen w-max-6xl mx-auto relative">
-      <div class="absolute top-0 left-0 w-max-6xl w-full">
-        <div class="flex gap-4 justify-center items-center p-4">
-          <img class="w-4 rounded-full h-4" src="" alt="avatar"/>
-          <div>
-            <h2 class="font-bold"> @khandakar.shakib </h2>
-            <p class=""> Let's keep it simple </p>
-          </div>
+
+<head>
+  <meta name="title" content="Send anonymous message">
+  <meta name="description" content="Send me an anonymous message">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width" />
+  <meta property="og:title" content="Send anonymous message">
+  <meta property="og:description" content="Send me an anonymous message">
+  <meta property="og:image" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="language" content="English">
+  <link href="/output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-b from-pink-500 via-red-500 to-yellow-500 h-screen">
+  <div class="h-full-screen max-w-5xl mx-auto relative px-4 grid content-between h-screen">
+    <div class="w-full">
+      <div class="flex gap-4 items-center p-4 bg-white rounded-t-3xl mt-10 pb-12  w-max-6xl mx-auto w-full">
+        <img class="w-16 rounded-full h-16"
+          src="https://scontent.fcgp27-1.fna.fbcdn.net/v/t39.30808-1/293296263_1316315072226609_6585226169969249_n.jpg?stp=dst-jpg_s200x200&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_eui2=AeFCjEFeL6lk-88qs7JiAkWrNWAgM_nIf6s1YCAz-ch_qzO0Z9zinImtuV-CjwZC-GrG1Lp_2vABfyLm1t3iM_B1&_nc_ohc=nop93yw8gqAAX9-Y0lu&_nc_ht=scontent.fcgp27-1.fna&oh=00_AT9QzdojYz5rH7aJ9KokQyFJ2blk9MvWjfqTsfKp3QkesQ&oe=62EA0A20"
+          alt="avatar" />
+        <div>
+          <h2 class="font-bold text-base sm:text-lg"> @khandakar.shakib </h2>
+          <p class=""> Let's keep it simple </p>
         </div>
       </div>
-      <div class="absolute bottom-0 left-0 w-max-6xl w-full">
-        
-      </div>
+      <form id="messageform">
+        <textarea class="w-full h-48 rounded-3xl border shadow-sm p-5 -mt-8 bg-[#ffb7b7]" minlength="5" name="message"
+          form="messageform"></textarea>
+        <input type="submit" value="" id="submit-button" />
+      </form>
+
     </div>
-  </body>
+    <div class="max-w-5xl w-full bottom-0 py-4 text-center">
+      <p class="py-4 sm:text-lg">👇 248 people have already clicked this 👇</p>
+      <button class="w-full rounded-3xl py-4 px-5 text-xl bg-black text-white font-bold"> Get your own messages!
+      </button>
+    </div>
+  </div>
+  <div class="items-center gap-4 flex fixed top-[1rem] left-0 p-4 rounded-md shadow bg-white hidden"
+    data-name="notification">
+    <p></p>
+    <button class="p-1 font-bold" data-name="notification-close-button">x</button>
+  </div>
+
+  <script>
+    const form = document.getElementsByTagName("form")[0];
+    const notification = document.querySelector('[data-name="notification"]'); //A snackbar to notify if message sent or failed
+    const notificationCloseButton = document.querySelector('[data-name="notification-close-button"]'); //close snackbar
+    const textarea = form.getElementsByTagName("textarea")[0];
+
+    textarea.addEventListener("keypress", onEnter)
+    form.addEventListener("submit", onSubmit)
+    notificationCloseButton.addEventListener("click", function () {
+      notification.classList.add("hidden");
+    })
+
+    /**
+     * @param {SubmitEvent} e
+     */
+    async function onSubmit(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+      
+      const options = {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(data),
+      };
+
+      const response = await fetch("/message", options);
+      if (!response.ok) {
+        console.log("Not ok");
+        notification.classList.remove("hidden");
+        notification.getElementsByTagName("p")[0].textContent = "Failed to send your message. Please try again";
+        return
+      }
+      notification.getElementsByTagName("p")[0].textContent = "Message sent"
+      notification.classList.remove("hidden");
+    }
+
+    /**
+     * @param {SubmitEvent} e
+    */
+    function onEnter(e) {
+      if (e.key == "Enter" && !e.shiftKey) {
+        const button = form.getElementsByTagName("input")[0];
+        button.click();
+
+      }
+    }
+  </script>
+</body>
+
 </html>

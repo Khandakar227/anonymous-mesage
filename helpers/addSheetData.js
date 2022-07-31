@@ -1,12 +1,12 @@
+//@ts-check
 import { google } from "googleapis";
 
 /**
  *
- * @param {Object} body data for sheet
- * @param {Array} additionalData data for sheet
+ * @param {Array} data data for sheet
  * @param {string} range Sheet name with rows name divided by !. row name are divied by :, example: "Sheet1!A:B"
  */
-export default function addSheetData(data=[], additionalData=[], range = "anonymous-message") {
+function addSheetData(data=[], range = "anonymous-message") {
   //Setup auth
   const googleAuth = new google.auth.GoogleAuth({
     credentials: {
@@ -46,3 +46,5 @@ export default function addSheetData(data=[], additionalData=[], range = "anonym
     .then(result => ({data: result.data, status: result.status, statusText: result.statusText, error: null}))
     .catch(err => ({error: err}));
 }
+
+export default addSheetData;
